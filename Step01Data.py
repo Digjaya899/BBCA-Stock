@@ -10,7 +10,10 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 # 1. Input
+df = pd.read_csv ('BBCA.csv')
+df.info()
 
+print(df)
 # 2. Process
 
 # 3. Output
