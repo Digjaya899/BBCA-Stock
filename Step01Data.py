@@ -81,7 +81,21 @@ alpha = k / (k - 1) * (1 - item_var.sum() / total_var)
 print("Cronbach's Alpha:", round(alpha, 3))
 
 #1.6 Validation Checklist
+if "df" not in globals():
+    df = pd.read_csv("BBCA.csv")
 
+summary = pd.Series(
+    {
+        "rows": df.shape[0],
+        "features": df.shape[1],
+        "numeric_columns": int(df.select_dtypes(include=["number"]).shape[1]),
+        "rows_with_missing": int(df.isna().any(axis=1).sum()),
+        "int_columns": int((df.dtypes == "int64").sum()),
+        "float_columns": int((df.dtypes == "float64").sum()),
+    }
+)
+
+print(summary)
 
 
 # 3. Output
