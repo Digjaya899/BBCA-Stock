@@ -68,4 +68,4 @@ factor_table = pd.DataFrame(
 )
 print(factor_table.head())
 
-# 3. Output
+# 2.2.3 Factor Analysis
