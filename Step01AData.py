@@ -12,33 +12,17 @@ from scipy import stats
 
 # 1.1 Load Data
 df = pd.read_csv("BBCA.csv")
-df[
-    ["Year",
-     "Stock_Price(Rp)",
-     "EPS(Rp)","Dividends(Rp)",
-     "ROE(%)",
-     "Debt_to_Equity",
-     "Total_Assets(Rp)",
-     "Total_Liabilities(Rp)",
-     "Total_Debt(Rp)",
-     "Total_Equity(Rp)",
-     "Revenue(Rp)",
-     "Net_Profit(Rp)",
-     "Operating_Cashflow(Rp)",
-     "Comprehensive_Net_Profit(Rp)",
-    ]
-].head()
-print(df)
+print (df)
 
 # 1.2 Data Quality Checking
 if "df" not in globals():
     df = pd.read_csv("BBCA.csv")
 
 summary = df [[
-     "Total_Assets(Rp)","Total_Liabilities(Rp)",
-     "Total_Debt(Rp)","Total_Equity(Rp)",
-     "Revenue(Rp)","Net_Profit(Rp)",
-     "Operating_Cashflow(Rp)","Comprehensive_Net_Profit(Rp)",
+     "Year","Stock Price (Rp)","EPS (Rp)","Dividends (Rp)",
+     "P/E","ROA (%)","ROE (%)","Debt-to-Equity",
+     "Total Assets (Rp)","Total Liabilities (Rp)","Total Debt (Rp)","Total Equity (Rp)",
+     "Revenue (Rp)","Net Profit (Rp)","Operating Cash Flow (Rp)",
     ]].describe().loc[["count","mean","std","min","max"]]
 print(summary)
 
@@ -54,24 +38,15 @@ print(missing_counts)
 if "df" not in globals():
     df = pd.read_csv("BBCA.csv")
 
-z_scores = np.abs(stats.zscore(df[
-    ["Year",
-     "Stock_Price(Rp)",
-     "EPS(Rp)","Dividends(Rp)",
-     "ROE(%)",
-     "Debt_to_Equity",
-     "Total_Assets(Rp)",
-     "Total_Liabilities(Rp)",
-     "Total_Debt(Rp)",
-     "Total_Equity(Rp)",
-     "Revenue(Rp)",
-     "Net_Profit(Rp)",
-     "Operating_Cashflow(Rp)",
-     "Comprehensive_Net_Profit(Rp)",
-    ]].dropna()))
+z_scores = np.abs(stats.zscore(df [[
+     "Year","Stock Price (Rp)","EPS (Rp)","Dividends (Rp)",
+     "P/E","ROA (%)","ROE (%)","Debt-to-Equity",
+     "Total Assets (Rp)","Total Liabilities (Rp)","Total Debt (Rp)","Total Equity (Rp)",
+     "Revenue (Rp)","Net Profit (Rp)","Operating Cash Flow (Rp)",
+    ]].describe().loc[["count","mean","std","min","max"]]
+    .dropna()))
 
 outlier_mask = z_scores > 3
 
-df.loc
 
 # 3. Output
