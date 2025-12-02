@@ -96,6 +96,3 @@ summary = pd.Series(
 )
 
 print(summary)
-
-
-# 3. Output
