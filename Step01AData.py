@@ -12,6 +12,12 @@ from scipy import stats
 
 # 1.1 Load Data
 df = pd.read_csv("BBCA.csv")
+df [[
+     "Year","Stock Price (Rp)","EPS (Rp)","Dividends (Rp)",
+     "P/E","ROA (%)","ROE (%)","Debt-to-Equity",
+     "Total Assets (Rp)","Total Liabilities (Rp)","Total Debt (Rp)","Total Equity (Rp)",
+     "Revenue (Rp)","Net Profit (Rp)","Operating Cash Flow (Rp)",
+    ]].head()
 print (df)
 
 # 1.2 Data Quality Checking
@@ -38,15 +44,23 @@ print(missing_counts)
 if "df" not in globals():
     df = pd.read_csv("BBCA.csv")
 
-z_scores = np.abs(stats.zscore(df [[
-     "Year","Stock Price (Rp)","EPS (Rp)","Dividends (Rp)",
-     "P/E","ROA (%)","ROE (%)","Debt-to-Equity",
-     "Total Assets (Rp)","Total Liabilities (Rp)","Total Debt (Rp)","Total Equity (Rp)",
-     "Revenue (Rp)","Net Profit (Rp)","Operating Cash Flow (Rp)",
-    ]].describe().loc[["count","mean","std","min","max"]]
-    .dropna()))
+z_scores = np.abs(
+    stats.zscore(
+        df [["Stock Price (Rp)","EPS (Rp)","Dividends (Rp)",
+             "P/E","ROA (%)","ROE (%)","Debt-to-Equity",]]
+            .dropna()
+        )
+    )
 
 outlier_mask = z_scores > 3
+
+outliers = df.loc[outlier_mask.any(axis=1),
+                  ["Year","Stock Price (Rp)","EPS (Rp)","Dividends (Rp)",
+                   "P/E","ROA (%)","ROE (%)","Debt-to-Equity",],
+                   ]
+
+print(outliers)
+
 
 
 # 3. Output

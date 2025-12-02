@@ -11,8 +11,25 @@ import matplotlib.pyplot as plt
 from scipy import stats 
 
 # 1. Input
-df = pd.read_csv("BBCA.csv")
-print(df)
+if "df" not in globals():
+    df = pd.read_csv("BBCA.csv")
+
+z_scores = np.abs(
+    stats.zscore(
+        df [["Stock Price (Rp)","EPS (Rp)","Dividends (Rp)",
+             "P/E","ROA (%)","ROE (%)","Debt-to-Equity",]]
+            .dropna()
+        )
+    )
+
+outlier_mask = z_scores > 3
+
+outliers = df.loc[outlier_mask.any(axis=1),
+                  ["Year","Stock Price (Rp)","EPS (Rp)","Dividends (Rp)",
+                   "P/E","ROA (%)","ROE (%)","Debt-to-Equity",],
+                   ]
+
+print(outliers)
 
 # 2. Process
 
