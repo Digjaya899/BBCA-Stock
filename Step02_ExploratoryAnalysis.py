@@ -9,6 +9,7 @@ import statsmodels.api as sm
 import seaborn as sns
 import matplotlib.pyplot as plt 
 from scipy import stats 
+from sklearn.decomposition import FactorAnalysis
 
 # 2.1 Factor Analysis
 if "df" not in globals():
@@ -27,10 +28,8 @@ if "df" not in globals():
     df = pd.read_csv("BBCA.csv")
 
 exp_matrix = df[
-    ["Year","Stock Price (Rp)","EPS (Rp)","Dividends (Rp)",
-     "P/E","ROA (%)","ROE (%)","Debt-to-Equity",
-     "Total Assets (Rp)","Total Liabilities (Rp)","Total Debt (Rp)","Total Equity (Rp)",
-     "Revenue (Rp)","Net Profit (Rp)","Operating Cash Flow (Rp)",]
+    ["ROA (%)","ROE (%)","Debt-to-Equity", "P/E",
+     "Stock Price (Rp)","EPS (Rp)","Dividends (Rp)",]
 ]
 
 corr = exp_matrix.corr()
@@ -52,10 +51,8 @@ if "df" not in globals():
     df = pd.read_csv("BBCA.csv")
 
 exp_corr = df[
-    ["Year","Stock Price (Rp)","EPS (Rp)","Dividends (Rp)",
-     "P/E","ROA (%)","ROE (%)","Debt-to-Equity",
-     "Total Assets (Rp)","Total Liabilities (Rp)","Total Debt (Rp)","Total Equity (Rp)",
-     "Revenue (Rp)","Net Profit (Rp)","Operating Cash Flow (Rp)",]
+    ["ROA (%)","ROE (%)","Debt-to-Equity", "P/E",
+     "Stock Price (Rp)","EPS (Rp)","Dividends (Rp)",]
 ].corr() 
 
 eigenvalues = np.linalg.eigvalsh(exp_corr)
@@ -69,3 +66,61 @@ factor_table = pd.DataFrame(
 print(factor_table.head())
 
 # 2.2.3 Factor Analysis
+if "df" not in globals():
+    df = pd.read_csv("BBCA.csv")
+
+exp_cols = ["ROA (%)","ROE (%)","Debt-to-Equity", "P/E",
+            "Stock Price (Rp)","EPS (Rp)","Dividends (Rp)",]
+
+fa_model = FactorAnalysis(n_components=3, random_state=0)
+fa_model.fit(df[exp_cols])
+
+factor_loadings = pd.DataFrame(
+    fa_model.components_.T,
+    index=exp_cols,
+    columns=["factor1", "factor2", "factor3"],
+)
+
+print(factor_loadings.round(3).head())
+
+# 2.2.4 Factor Scores
+if "df" not in globals():
+    df = pd.read_csv("BBCA.csv")
+
+exp_cols = ["ROA (%)","ROE (%)","Debt-to-Equity", "P/E",
+            "Stock Price (Rp)","EPS (Rp)","Dividends (Rp)",]
+
+if "fa_model" not in globals():
+    fa_model = FactorAnalysis(n_components=3, random_state=0).fit(df[exp_cols])
+
+factor_scores_df = pd.DataFrame(
+    fa_model.transform(df[exp_cols]),
+    columns=["factor1_score", "factor2_score", "factor3_score"],
+    index=df["Year"],
+)
+
+print(factor_scores_df.round(3).head())
+
+# 2.3 Validation
+if "df" not in globals():
+    df = pd.read_csv("BBCA.csv")
+
+exp_cols = ["ROA (%)","ROE (%)","Debt-to-Equity", "P/E",
+            "Stock Price (Rp)","EPS (Rp)","Dividends (Rp)",]
+
+if "fa_model" not in globals():
+    fa_model = FactorAnalysis(n_components=3, random_state=0).fit(df[exp_cols])
+
+loadings = pd.DataFrame(
+    fa_model.components_.T,
+    index=exp_cols,
+    columns=["factor1", "factor2", "factor3"],)
+
+communalities = (loadings**2).sum(axis=1)
+validation_table = pd.DataFrame(
+    {
+        "communalities": communalities.round(3),
+        "uniqueness": (1 - communalities).round(3),
+    })
+
+print(validation_table)

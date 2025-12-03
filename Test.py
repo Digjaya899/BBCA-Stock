@@ -33,4 +33,12 @@ print(outliers)
 
 # 2. Process
 
-# 3. Output
+# Step02 MetaData
+
+# if "df" not in globals():
+#     df = pd.read_csv("BBCA.csv")
+
+# exp_cols = ["Year","Stock Price (Rp)","EPS (Rp)","Dividends (Rp)",
+#      "P/E","ROA (%)","ROE (%)","Debt-to-Equity",
+#      "Total Assets (Rp)","Total Liabilities (Rp)","Total Debt (Rp)","Total Equity (Rp)",
+#      "Revenue (Rp)","Net Profit (Rp)","Operating Cash Flow (Rp)",]
