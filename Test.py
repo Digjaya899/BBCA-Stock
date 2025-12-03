@@ -42,3 +42,9 @@ print(outliers)
 #      "P/E","ROA (%)","ROE (%)","Debt-to-Equity",
 #      "Total Assets (Rp)","Total Liabilities (Rp)","Total Debt (Rp)","Total Equity (Rp)",
 #      "Revenue (Rp)","Net Profit (Rp)","Operating Cash Flow (Rp)",]
+
+
+# ["Year","Stock_Price_Rp","EPS_Rp","Dividends_Rp",
+# "PE","ROA_pct","ROE_pct","Debt_to_Equity",
+# "Total_Assets_BnRp","Total_Liabilities_BnRp","Total_Debt_BnRp","Total_Equity_BnRp",
+# "Revenue_BnRp","Net_Profit_BnRp","Operating_Cash_Flow_BnRp",]
