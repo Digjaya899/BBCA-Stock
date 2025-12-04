@@ -24,6 +24,11 @@ if "df" not in globals():
 #             "Total_Assets_BnRp","Total_Liabilities_BnRp","Total_Debt_BnRp","Total_Equity_BnRp",
 #             "Revenue_BnRp","Net_Profit_BnRp","Operating_Cash_Flow_BnRp",]
 
+# ["Year","Stock_Price_Rp","Highest_Stock_Price_Rp","Lowest_Stock_Price_Rp","Dividends_Rp",
+#  "EPS_Rp","PE","ROA_pct","ROE_pct","Debt_to_Equity",
+#  "Total_Assets_BnRp","Total_Liabilities_BnRp","Total_Debt_BnRp","Total_Equity_BnRp",
+#  "Revenue_BnRp","EBITDA_BnRp","Net_Profit_BnRp","Operating_Income_BnRp","Operating_Cost_BnRp",]
+
 exp_cols = ["Stock_Price_Rp","EPS_Rp","Dividends_Rp",
             "PE","ROA_pct","ROE_pct","Debt_to_Equity",]
 
