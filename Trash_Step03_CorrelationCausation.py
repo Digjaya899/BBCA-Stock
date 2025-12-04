@@ -11,41 +11,37 @@ from scipy import stats
 import statsmodels.api as sm
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 
-# Input Prior Data
+# 3.01 DATA PRELOADING
+
 if "df" not in globals():
     df = pd.read_csv("BBCA_analyzed.csv")
 
-exp_cols = [col for col in df.columns if col.startswith("analyzedvar_")]
-
-scaler = StandardScaler()
-X_std = scaler.fit_transform(df[exp_cols])
-
-fa_model = FactorAnalysis(n_components=3, random_state=0).fit(X_std)
-factor_scores_df = pd.DataFrame(
-    fa_model.transform(X_std),
-    columns=["factor1_score", "factor2_score", "factor3_score"],
-)
-
-df = df.reset_index(drop=True)
-factor_scores_df = factor_scores_df.reset_index(drop=True)
-
-
-# 3.01 DATA PRELOADING
 print("# 3.01 DATA PRELOADING")
 
 target_corr = (
     df.corr(numeric_only=True)["analyzedvar_Stock_Price_Rp"]
-      .drop("analyzedvar_Stock_Price_Rp")
-      .sort_values(ascending=False)
-      .head(5)
+    .drop("analyzedvar_Stock_Price_Rp")
+    .sort_values(ascending=False)
+    .head(5)
 )
-
-print()
 print(target_corr.round(3))
 
 
 # 3.02 SELECTED VARIABLE MEAN STD
+
 print("\n\n# 3.02 SELECTED VARIABLE MEAN STD")
+
+exp_cols = [col for col in df.columns if col.startswith("analyzedvar_")]
+
+if "factor_scores_df" not in globals():
+    scaler = StandardScaler()
+    X_std = scaler.fit_transform(df[exp_cols])
+    fa_model = FactorAnalysis(n_components=3, random_state=0).fit(X_std)
+    factor_scores_df = pd.DataFrame(
+        fa_model.transform(X_std),
+        columns=["factor1_score", "factor2_score", "factor3_score"],
+        index=df["Year"],
+    )
 
 eda_frame = pd.concat(
     [
@@ -66,7 +62,18 @@ print(eda_frame.describe().loc[["mean", "std"]])
 
 
 # 3.03 CORRELATION MATRIX
+
 print("\n\n# 3.03 CORRELATION MATRIX")
+
+if "factor_scores_df" not in globals():
+    scaler = StandardScaler()
+    X_std = scaler.fit_transform(df[exp_cols])
+    fa_model = FactorAnalysis(n_components=3, random_state=0).fit(X_std)
+    factor_scores_df = pd.DataFrame(
+        fa_model.transform(X_std),
+        columns=["factor1_score", "factor2_score", "factor3_score"],
+        index=df["Year"],
+    )
 
 corr_cols = [
     "analyzedvar_Stock_Price_Rp",
@@ -82,7 +89,18 @@ print(corr_frame.round(3))
 
 
 # 3.04 STATISTICAL SIGNIFICANCE TESTING
+
 print("\n\n# 3.04 STATISTICAL SIGNIFICANCE TESTING")
+
+if "factor_scores_df" not in globals():
+    scaler = StandardScaler()
+    X_std = scaler.fit_transform(df[exp_cols])
+    fa_model = FactorAnalysis(n_components=3, random_state=0).fit(X_std)
+    factor_scores_df = pd.DataFrame(
+        fa_model.transform(X_std),
+        columns=["factor1_score", "factor2_score", "factor3_score"],
+        index=df["Year"],
+    )
 
 merged = pd.concat([df, factor_scores_df], axis=1)
 
@@ -91,6 +109,7 @@ for feature in ["analyzedvar_PE", "analyzedvar_ROA_pct", "factor1_score"]:
     cols = ["analyzedvar_Stock_Price_Rp", feature]
     subset = merged[cols].dropna()
 
+    # Skip if not enough data
     if len(subset) < 2:
         tests.append(
             {"feature": feature, "r": None, "p_value": None, "n": len(subset)}
@@ -107,6 +126,7 @@ print(pd.DataFrame(tests))
 
 
 # 3.05 PARTIAL CORRELATIONS
+
 print("\n\n# 3.05 PARTIAL CORRELATIONS")
 
 def residuals(y, X):
@@ -150,6 +170,16 @@ print(partial_summary)
 # 3.06 MULTICOLLINEARITY CHECKING
 print("\n\n# 3.06 MULTICOLLINEARITY CHECKING")
 
+if "factor_scores_df" not in globals():
+    scaler = StandardScaler()
+    X_std = scaler.fit_transform(df[exp_cols])
+    fa_model = FactorAnalysis(n_components=3, random_state=0).fit(X_std)
+    factor_scores_df = pd.DataFrame(
+        fa_model.transform(X_std),
+        columns=["factor1_score", "factor2_score", "factor3_score"],
+        index=df["Year"],
+    )
+
 vif_data = pd.concat(
     [
         df[
@@ -165,13 +195,8 @@ vif_data = pd.concat(
 ).dropna()
 
 if vif_data.shape[0] < 2 or vif_data.shape[1] == 0:
-    print(
-        "Not enough data to compute VIF (rows:",
-        vif_data.shape[0],
-        ", columns:",
-        vif_data.shape[1],
-        ").",
-    )
+    print("Not enough data to compute VIF (rows:", vif_data.shape[0],
+          ", columns:", vif_data.shape[1], ").")
 else:
     X_vif = sm.add_constant(vif_data)
     vif_table = pd.DataFrame(
@@ -188,8 +213,19 @@ else:
     print(vif_table.round(2))
 
 
+
 # 3.07 ASSUMPTION CHECKING
 print("\n\n# 3.07 ASSUMPTION CHECKING")
+
+if "factor_scores_df" not in globals():
+    scaler = StandardScaler()
+    X_std = scaler.fit_transform(df[exp_cols])
+    fa_model = FactorAnalysis(n_components=3, random_state=0).fit(X_std)
+    factor_scores_df = pd.DataFrame(
+        fa_model.transform(X_std),
+        columns=["factor1_score", "factor2_score", "factor3_score"],
+        index=df["Year"],
+    )
 
 analysis_df = pd.concat(
     [
@@ -206,11 +242,8 @@ analysis_df = pd.concat(
 ).dropna()
 
 if analysis_df.shape[0] < 2:
-    print(
-        "Not enough data to run OLS for assumption checking (rows:",
-        analysis_df.shape[0],
-        ").",
-    )
+    print("Not enough data to run OLS for assumption checking (rows:",
+          analysis_df.shape[0], ").")
 else:
     X_reg = sm.add_constant(
         analysis_df[
