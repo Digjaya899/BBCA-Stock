@@ -10,8 +10,8 @@ import seaborn as sns
 import matplotlib.pyplot as plt 
 from scipy import stats 
 
-# 1.1 DATA PRELOADING
-print("1.1 DATA PRELOADING")
+# 1.01 DATA PRELOADING
+print("1.01 DATA PRELOADING")
 
 if "df" not in globals():
     df = pd.read_csv("BBCA_analyzed.csv")
@@ -24,8 +24,8 @@ print()
 print(summary)
 
 
-# 1.2 DATA VALIDITY CHECKS
-print("\n\n1.2 DATA VALIDITY CHECKS")
+# 1.02 DATA VALIDITY CHECKS
+print("\n\n1.02 DATA VALIDITY CHECKS")
 
 likert_columns = [
     "analyzedvar_PE",
@@ -53,8 +53,8 @@ print()
 print(validity_df)
 
 
-# 1.3 MISSING DATA ANALYSIS
-print("\n\n1.3 MISSING DATA ANALYSIS")
+# 1.03 MISSING DATA ANALYSIS
+print("\n\n1.03 MISSING DATA ANALYSIS")
 
 missing_counts = df.isna().sum()
 
@@ -62,8 +62,8 @@ print()
 print(missing_counts[missing_counts > 0])
 
 
-# 1.4 OUTLIER DETECTION
-print("\n\n1.4 OUTLIER DETECTION")
+# 1.04 OUTLIER DETECTION
+print("\n\n1.04 OUTLIER DETECTION")
 
 z_scores = np.abs(
     stats.zscore(
@@ -81,8 +81,8 @@ print()
 print(outliers)
 
 
-# 1.5 RELIABILITY TESTING (CRONBACH'S ALPHA)
-print("\n\n1.5 RELIABILITY TESTING (CRONBACH'S ALPHA)")
+# 1.05 RELIABILITY TESTING (CRONBACH'S ALPHA)
+print("\n\n1.05 RELIABILITY TESTING (CRONBACH'S ALPHA)")
 
 service_items = df[
     [
@@ -103,8 +103,8 @@ print()
 print(round(alpha, 3))
 
 
-# 1.6 VALIDATION CHECKLIST
-print("\n\n1.6 VALIDATION CHECKLIST")
+# 1.06 VALIDATION CHECKLIST
+print("\n\n1.06 VALIDATION CHECKLIST")
 
 validation_series = pd.Series(
     {
