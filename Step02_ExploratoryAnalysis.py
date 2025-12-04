@@ -124,7 +124,7 @@ print(factor_scores_df.head().round(3))
 
 
 # 2.07 VALIDATION
-print("\n\nVALIDATION")
+print("\n\n2.07 VALIDATION")
 
 if "df" not in globals():
     df = pd.read_csv("BBCA_analyzed.csv")
@@ -153,7 +153,7 @@ print(validation_table.head())
 
 
 # 2.08 CONVERGENT VALIDITY
-print("\n\nCOVERGENT VALIDITY")
+print("\n\n2.08COVERGENT VALIDITY")
 
 if "df" not in globals():
     df = pd.read_csv("BBCA_analyzed.csv")
@@ -175,7 +175,7 @@ print(avg_abs_loadings.to_frame(name="avg_abs_loading").round(3))
 
 
 # 2.09 DISCRIMINANT VALIDITY
-print("\n\nDISCRIMINANT VALIDITY")
+print("\n\n2.09DISCRIMINANT VALIDITY")
 
 if "df" not in globals():
     df = pd.read_csv("BBCA_analyzed.csv")
@@ -198,7 +198,7 @@ print(factor_scores_df.corr().round(3))
 
 
 # 2.10 VALIDITY SUMMARY REPORT
-print("\n\nVALIDITY SUMMARY REPORT")
+print("\n\n2.10VALIDITY SUMMARY REPORT")
 
 import pandas as pd
 from sklearn.decomposition import FactorAnalysis
