@@ -1,4 +1,4 @@
-Year,analyzedvar_Price_Rp,Highest_Stock_Price_Rp,Lowest_Stock_Price_Rp,analyzedvar_Dividends_Rp,analyzedvar_EPS_Rp,analyzedvar_PE,analyzedvar_ROA_pct,analyzedvar_ROE_pct,analyzedvar_Debt_to_Equity,Total_Assets_BnRp,Total_Liabilities_BnRp,Total_Debt_BnRp,Total_Equity_BnRp,Revenue_BnRp,analyzedvar_EBITDA_BnRp,Net_Profit_BnRp,Operating_Income_BnRp,Operating_Cost_BnRp
+Year,analyzedvar_Stock_Price_Rp,Highest_Stock_Price_Rp,Lowest_Stock_Price_Rp,analyzedvar_Dividends_Rp,analyzedvar_EPS_Rp,analyzedvar_PE,analyzedvar_ROA_pct,analyzedvar_ROE_pct,analyzedvar_Debt_to_Equity,Total_Assets_BnRp,Total_Liabilities_BnRp,Total_Debt_BnRp,Total_Equity_BnRp,Revenue_BnRp,analyzedvar_EBITDA_BnRp,Net_Profit_BnRp,Operating_Income_BnRp,Operating_Cost_BnRp
 2024,9675,10950,8775,277.50,445.00,21.74,3.78,20.87,0.022,1449301,1186466,5899,262835,108307,68218,54851,26042,38054
 2023,9400,9450,8000,212.50,395.00,23.80,3.46,20.06,0.048,1408107,1165569,11700,242538,98517,60180,48658,23579,37281
 2022,8550,9400,7000,155.00,330.00,25.91,3.10,18.43,0.042,1314732,1093550,9253,221182,85419,50467,40756,21557,31638
