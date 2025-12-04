@@ -17,10 +17,10 @@ if "df" not in globals():
 
 z_scores = np.abs(
     stats.zscore(
-        df [["Year","Stock_Price_Rp","Highest_Stock_Price_Rp","Lowest_Stock_Price_Rp","Dividends_Rp",
+        df ["Year","Stock_Price_Rp","Highest_Stock_Price_Rp","Lowest_Stock_Price_Rp","Dividends_Rp",
                "EPS_Rp","PE","ROA_pct","ROE_pct","Debt_to_Equity",
                "Total_Assets_BnRp","Total_Liabilities_BnRp","Total_Debt_BnRp","Total_Equity_BnRp",
-               "Revenue_BnRp","EBITDA_BnRp","Net_Profit_BnRp","Operating_Income_BnRp","Operating_Cost_BnRp",]
+               "Revenue_BnRp","EBITDA_BnRp","Net_Profit_BnRp","Operating_Income_BnRp","Operating_Cost_BnRp",
                ].dropna()))
 
 outlier_mask = z_scores > 3
