@@ -24,7 +24,7 @@ target_corr = (
       .head(5)
 )
 
-target_corr.round(3)
+print(target_corr.round(3))
 
 # 3.2.1 Mean Std Process
 pd.set_option("display.max_columns", None)
@@ -49,7 +49,28 @@ eda_frame = pd.concat(
      factor_scores_df,],
     axis=1,)
 
-eda_frame.describe().loc[["mean", "std"]]
+print(eda_frame.describe().loc[["mean", "std"]])
+
+# 3.2.2 Correlation Matrix
+if "df" not in globals():
+    df = pd.read_csv("BBCA.csv")
+
+exp_cols = ["Stock_Price_Rp","EPS_Rp","Dividends_Rp",
+            "PE","ROA_pct","ROE_pct","Debt_to_Equity",]
+
+if "factor_scores_df" not in globals():
+    fa_model = FactorAnalysis(n_components=3, random_state=0).fit(df[exp_cols])
+    factor_scores_df = pd.DataFrame(
+        fa_model.transform(df[exp_cols]),
+        columns=["factor1_score", "factor2_score", "factor3_score"],
+        index=df["Year"],)
+
+corr_cols = ["Stock_Price_Rp","EPS_Rp","Dividends_Rp",
+            "PE","ROA_pct","ROE_pct","Debt_to_Equity",]
+
+corr_frame = pd.concat ([df[corr_cols], factor_scores_df,], axis=1)
+
+print(corr_frame.round(3))
 
 # 2. Process
 
