@@ -10,78 +10,103 @@ import seaborn as sns
 import matplotlib.pyplot as plt 
 from scipy import stats 
 
-# 1.1 Load Data
-df = pd.read_csv("BBCA.csv")
-df [["Year","Stock_Price_Rp","Highest_Stock_Price_Rp","Lowest_Stock_Price_Rp","Dividends_Rp",
-     "EPS_Rp","PE","ROA_pct","ROE_pct","Debt_to_Equity",
-     "Total_Assets_BnRp","Total_Liabilities_BnRp","Total_Debt_BnRp","Total_Equity_BnRp",
-     "Revenue_BnRp","EBITDA_BnRp","Net_Profit_BnRp","Operating_Income_BnRp","Operating_Cost_BnRp",]].head()
-print (df)
+# 1.1 DATA PRELOADING
+print("1.1 DATA PRELOADING")
 
-# 1.2 Data Quality Checking
 if "df" not in globals():
-    df = pd.read_csv("BBCA.csv")
+    df = pd.read_csv("BBCA_analyzed.csv")
 
-summary = df [["Year","Stock_Price_Rp","Highest_Stock_Price_Rp","Lowest_Stock_Price_Rp","Dividends_Rp",
-               "EPS_Rp","PE","ROA_pct","ROE_pct","Debt_to_Equity",
-               "Total_Assets_BnRp","Total_Liabilities_BnRp","Total_Debt_BnRp","Total_Equity_BnRp",
-               "Revenue_BnRp","EBITDA_BnRp","Net_Profit_BnRp","Operating_Income_BnRp","Operating_Cost_BnRp",]
-               ].describe().loc[["count","mean","std","min","max"]]
+summary = df[
+    ["analyzedvar_Stock_Price_Rp", "analyzedvar_EPS_Rp", "analyzedvar_Dividends_Rp"]
+].describe().loc[["count", "mean", "std", "min", "max"]]
+
+print()
 print(summary)
 
-# 1.3 Missing Data Analysis
-if "df" not in globals():
-    df = pd.read_csv("BBCA.csv")
+
+# 1.2 DATA VALIDITY CHECKS
+print("\n\n1.2 DATA VALIDITY CHECKS")
+
+likert_columns = [
+    "analyzedvar_PE",
+    "analyzedvar_ROA_pct",
+    "analyzedvar_ROE_pct",
+] + [col for col in df.columns if col.startswith("analyzedvar_")]
+
+likert_out_of_range = (
+    (df[likert_columns] < 0) | (df[likert_columns] > 100)
+).sum().sum()
+
+numeric_checks = {
+    "negative_assets": int((df["Total_Assets_BnRp"] < 0).sum()),
+    "negative_revenue": int((df["Revenue_BnRp"] < 0).sum()),
+}
+
+validity_df = pd.DataFrame(
+    {
+        "metric": ["likert_out_of_range"] + list(numeric_checks.keys()),
+        "violations": [int(likert_out_of_range)] + list(numeric_checks.values()),
+    }
+)
+
+print()
+print(validity_df)
+
+
+# 1.3 MISSING DATA ANALYSIS
+print("\n\n1.3 MISSING DATA ANALYSIS")
 
 missing_counts = df.isna().sum()
-missing_counts[missing_counts>0]
-print(missing_counts)
 
-# 1.4 Outlier Detection
-if "df" not in globals():
-    df = pd.read_csv("BBCA.csv")
+print()
+print(missing_counts[missing_counts > 0])
+
+
+# 1.4 OUTLIER DETECTION
+print("\n\n1.4 OUTLIER DETECTION")
 
 z_scores = np.abs(
     stats.zscore(
-        df [["Year","Stock_Price_Rp","Highest_Stock_Price_Rp","Lowest_Stock_Price_Rp","Dividends_Rp",
-               "EPS_Rp","PE","ROA_pct","ROE_pct","Debt_to_Equity",
-               "Total_Assets_BnRp","Total_Liabilities_BnRp","Total_Debt_BnRp","Total_Equity_BnRp",
-               "Revenue_BnRp","EBITDA_BnRp","Net_Profit_BnRp","Operating_Income_BnRp","Operating_Cost_BnRp",]
-               ].dropna()))
-
+        df[["analyzedvar_Stock_Price_Rp", "analyzedvar_EPS_Rp"]].dropna()
+    )
+)
 outlier_mask = z_scores > 3
 
-outliers = df.loc[outlier_mask.any(axis=1),
-                  ["Year","Stock_Price_Rp","Highest_Stock_Price_Rp","Lowest_Stock_Price_Rp","Dividends_Rp",
-                   "EPS_Rp","PE","ROA_pct","ROE_pct","Debt_to_Equity",
-                   "Total_Assets_BnRp","Total_Liabilities_BnRp","Total_Debt_BnRp","Total_Equity_BnRp",
-                   "Revenue_BnRp","EBITDA_BnRp","Net_Profit_BnRp","Operating_Income_BnRp","Operating_Cost_BnRp",],]
+outliers = df.loc[
+    outlier_mask.any(axis=1),
+    ["Year", "analyzedvar_Stock_Price_Rp", "analyzedvar_EPS_Rp"],
+]
 
+print()
 print(outliers)
 
-# 1.5 Reliability Testing (Cronbach's Alpha)
-if "df" not in globals():
-    df = pd.read_csv("BBCA.csv")
+
+# 1.5 RELIABILITY TESTING (CRONBACH'S ALPHA)
+print("\n\n1.5 RELIABILITY TESTING (CRONBACH'S ALPHA)")
 
 service_items = df[
-    ["Year","Stock_Price_Rp","Highest_Stock_Price_Rp","Lowest_Stock_Price_Rp","Dividends_Rp",
-     "EPS_Rp","PE","ROA_pct","ROE_pct","Debt_to_Equity",
-     "Total_Assets_BnRp","Total_Liabilities_BnRp","Total_Debt_BnRp","Total_Equity_BnRp",
-     "Revenue_BnRp","EBITDA_BnRp","Net_Profit_BnRp","Operating_Income_BnRp","Operating_Cost_BnRp",]]
-
+    [
+        "analyzedvar_EPS_Rp",
+        "analyzedvar_Dividends_Rp",
+        "analyzedvar_PE",
+        "analyzedvar_ROE_pct",
+    ]
+]
 item_var = service_items.var(axis=0, ddof=1)
 total_var = service_items.sum(axis=1).var(ddof=1)
 
-k = len(service_items.columns)
-alpha = k / (k - 1) * (1 - item_var.sum() / total_var)
+alpha = len(service_items.columns) / (len(service_items.columns) - 1) * (
+    1 - item_var.sum() / total_var
+)
 
-print("Cronbach's Alpha:", round(alpha, 3))
+print()
+print(round(alpha, 3))
 
-#1.6 Validation Checklist
-if "df" not in globals():
-    df = pd.read_csv("BBCA.csv")
 
-summary = pd.Series(
+# 1.6 VALIDATION CHECKLIST
+print("\n\n1.6 VALIDATION CHECKLIST")
+
+validation_series = pd.Series(
     {
         "rows": df.shape[0],
         "features": df.shape[1],
@@ -92,4 +117,5 @@ summary = pd.Series(
     }
 )
 
-print(summary)
+print()
+print(validation_series)
