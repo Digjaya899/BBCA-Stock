@@ -7,6 +7,7 @@ import pandas as pd
 import numpy as np
 from sklearn.decomposition import FactorAnalysis
 from sklearn.preprocessing import StandardScaler
+
 pd.set_option("display.max_columns", None)
 pd.set_option("display.width", 200)
 
@@ -120,7 +121,7 @@ factor_scores_df = pd.DataFrame(
 )
 
 print()
-print(factor_scores_df.head().round(3))
+print(factor_scores_df.round(3))
 
 
 # 2.07 VALIDATION
@@ -153,7 +154,7 @@ print(validation_table.head())
 
 
 # 2.08 CONVERGENT VALIDITY
-print("\n\n2.08COVERGENT VALIDITY")
+print("\n\n2.08 COVERGENT VALIDITY")
 
 if "df" not in globals():
     df = pd.read_csv("BBCA_analyzed.csv")
@@ -175,7 +176,7 @@ print(avg_abs_loadings.to_frame(name="avg_abs_loading").round(3))
 
 
 # 2.09 DISCRIMINANT VALIDITY
-print("\n\n2.09DISCRIMINANT VALIDITY")
+print("\n\n2.09 DISCRIMINANT VALIDITY")
 
 if "df" not in globals():
     df = pd.read_csv("BBCA_analyzed.csv")
@@ -198,7 +199,7 @@ print(factor_scores_df.corr().round(3))
 
 
 # 2.10 VALIDITY SUMMARY REPORT
-print("\n\n2.10VALIDITY SUMMARY REPORT")
+print("\n\n2.10 VALIDITY SUMMARY REPORT")
 
 import pandas as pd
 from sklearn.decomposition import FactorAnalysis

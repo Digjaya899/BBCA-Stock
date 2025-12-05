@@ -10,6 +10,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt 
 from scipy import stats 
 
+pd.set_option("display.max_columns", None)  # show all columns
+pd.set_option("display.width", 200)
+
 # 1.01 DATA PRELOADING
 print("1.01 DATA PRELOADING")
 

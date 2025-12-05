@@ -11,6 +11,9 @@ from scipy import stats
 import statsmodels.api as sm
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 
+pd.set_option("display.max_columns", None)  # show all columns
+pd.set_option("display.width", 200)
+
 # Input Prior Data
 if "df" not in globals():
     df = pd.read_csv("BBCA_analyzed.csv")
@@ -35,7 +38,7 @@ print("# 3.01 DATA PRELOADING")
 
 target_corr = (
     df.corr(numeric_only=True)["analyzedvar_Stock_Price_Rp"]
-      .drop("analyzedvar_Stock_Price_Rp").drop("Year")
+      .drop("analyzedvar_Stock_Price_Rp").drop("Year").drop("Highest_Stock_Price_Rp").drop("Lowest_Stock_Price_Rp")
       .sort_values(ascending=False)
       .head(5)
 )
