@@ -35,7 +35,7 @@ print("# 3.01 DATA PRELOADING")
 
 target_corr = (
     df.corr(numeric_only=True)["analyzedvar_Stock_Price_Rp"]
-      .drop("analyzedvar_Stock_Price_Rp")
+      .drop("analyzedvar_Stock_Price_Rp").drop("Year")
       .sort_values(ascending=False)
       .head(5)
 )
