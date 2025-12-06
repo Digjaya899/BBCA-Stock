@@ -10,7 +10,7 @@ import statsmodels.api as sm
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-pd.set_option("display.max_columns", None)  # show all columns
+pd.set_option("display.max_columns", None)
 pd.set_option("display.width", 200)
 
 # 5.01 DATA PRELOADING

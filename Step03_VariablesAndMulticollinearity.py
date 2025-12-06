@@ -11,7 +11,7 @@ from scipy import stats
 import statsmodels.api as sm
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 
-pd.set_option("display.max_columns", None)  # show all columns
+pd.set_option("display.max_columns", None)
 pd.set_option("display.width", 200)
 
 # Input Prior Data
