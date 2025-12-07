@@ -122,3 +122,41 @@ validation_series = pd.Series(
 
 print()
 print(validation_series)
+
+
+# 1.07 SUMMARY
+print("\n\n1.07 SUMMARY")
+
+vars_for_table = [
+    "analyzedvar_Stock_Price_Rp",   # DV
+    "analyzedvar_Dividends_Rp",     # IV
+    "analyzedvar_EPS_Rp",           # IV
+    "analyzedvar_PE",               # IV
+    "analyzedvar_ROA_pct",          # IV
+    "analyzedvar_ROE_pct",          # IV
+    "analyzedvar_Debt_to_Equity",   # IV
+    "analyzedvar_EBITDA_BnRp",      # IV
+    "Year",                         # Control
+]
+
+sub = df[vars_for_table]
+
+desc = sub.describe().T
+missing = sub.isna().sum()
+z = (sub - sub.mean()) / sub.std(ddof=0)
+outliers = (np.abs(z) > 3).sum()
+
+summary_table = pd.DataFrame({
+    "Variable": desc.index,
+    "N": desc["count"].astype(int),
+    "Mean": desc["mean"],
+    "Std_Dev": desc["std"],
+    "Min": desc["min"],
+    "Max": desc["max"],
+    "Missing": missing.values,
+    "Outliers": outliers.values,
+})
+
+print()
+print((summary_table).round(2))
+summary_table.to_csv("BBCA_summary_stats_all_vars.csv", index=False)
