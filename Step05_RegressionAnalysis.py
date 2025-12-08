@@ -77,3 +77,53 @@ model2 = sm.OLS(y, X10).fit()
 print("\n# 5.06B STOCK PRICE - EBITDA (YEAR AS CONTROL)")
 print(model2.summary())
 ### 5.06 R2 < CVR2 Difference less than 0.10 (Acceptable) ; R2>0.30 (OK)
+
+# 5.07 P VALUE SUMMARY
+df = pd.read_csv("BBCA_analyzed.csv")
+
+y = df["analyzedvar_Stock_Price_Rp"]
+X = df[[
+    "analyzedvar_Dividends_Rp",
+    "analyzedvar_EPS_Rp",
+    "analyzedvar_PE",
+    "analyzedvar_ROA_pct",
+    "analyzedvar_ROE_pct",
+    "analyzedvar_Debt_to_Equity",
+    "analyzedvar_EBITDA_BnRp",
+    "Year",
+]]
+X = sm.add_constant(X)
+
+model = sm.OLS(y, X).fit()
+print(model.summary())
+
+coefs = model.params
+std_err = model.bse
+t_vals = model.tvalues
+p_vals = model.pvalues
+conf_int = model.conf_int(alpha=0.05)  # 95% CI
+
+results_table = pd.DataFrame({
+    "Variable": coefs.index,
+    "Coefficient": coefs.values,
+    "Std_Error": std_err.values,
+    "t_value": t_vals.values,
+    "p_value": p_vals.values,
+    "CI_lower": conf_int[0].values,
+    "CI_upper": conf_int[1].values,
+})
+
+results_table = results_table.round(3)
+print(results_table)
+
+results_table.to_csv("BBCA_regression_results.csv", index=False)
+
+
+# 5.08 REGRESSION SUMMARY
+rmse = np.sqrt(model.mse_resid)
+
+print("Multiple R² =", model.rsquared)
+print("Adjusted R² =", model.rsquared_adj)
+print("F-statistic =", model.fvalue, "(p =", model.f_pvalue, ")")
+print("n =", int(model.nobs))
+print("RMSE=", rmse)
