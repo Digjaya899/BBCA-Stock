@@ -79,7 +79,6 @@ print(model2.summary())
 ### 5.06 R2 < CVR2 Difference less than 0.10 (Acceptable) ; R2>0.30 (OK)
 
 
-
 # 5.07 P VALUE SUMMARY
 df = pd.read_csv("BBCA_analyzed.csv")
 
@@ -144,11 +143,6 @@ plt.show()
 
 
 print(model.summary())
-
-
-
-
-
 
 
 
