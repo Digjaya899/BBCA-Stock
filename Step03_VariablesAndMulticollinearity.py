@@ -70,19 +70,18 @@ print(eda_frame.describe().loc[["mean", "std"]])
 
 # 3.03 CORRELATION MATRIX
 print("\n\n# 3.03 CORRELATION MATRIX")
-
-corr_cols = [
+corr_cols_full = [
     "analyzedvar_Stock_Price_Rp",
-    "analyzedvar_EPS_Rp",
     "analyzedvar_Dividends_Rp",
+    "analyzedvar_EPS_Rp",
     "analyzedvar_PE",
+    "analyzedvar_ROA_pct",
+    "analyzedvar_ROE_pct",
+    "analyzedvar_Debt_to_Equity",
+    "analyzedvar_EBITDA_BnRp",
 ]
-
-corr_frame = pd.concat([df[corr_cols], factor_scores_df], axis=1).corr()
-
-print()
-print(corr_frame.round(3))
-
+corr_full = df[corr_cols_full].corr().round(3)
+print(corr_full)
 
 # 3.04 STATISTICAL SIGNIFICANCE TESTING
 print("\n\n# 3.04 STATISTICAL SIGNIFICANCE TESTING")
